@@ -1,43 +1,47 @@
 <?php
 
-
 namespace App\Http\Interfaces;
 
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Interface UserServiceInterface
+ * Interface CrudServiceInterface
  * @package App\Http\Interfaces
  */
-interface UserServiceInterface
+interface CrudServiceInterface
 {
     /**
+     * @param $model
      * @return Collection|array
      */
-    public function getAllUsers(): Collection|array;
+    public function getAll($model): Collection|array;
 
     /**
+     * @param $model
      * @param $id
      * @return mixed
      */
-    public function getUserById($id): mixed;
+    public function getById($model, $id): mixed;
 
     /**
+     * @param $model
      * @param $dto
      * @return mixed
      */
-    public function createUser($dto);
+    public function create($model, $dto);
 
     /**
+     * @param $model
      * @param $dto
      * @param $id
      * @return mixed
      */
-    public function updateUser($dto, $id);
+    public function update($model, $dto, $id);
 
     /**
+     * @param $model
      * @param $id
      * @return mixed
      */
-    public function deleteUser($id);
+    public function delete($model, $id);
 }

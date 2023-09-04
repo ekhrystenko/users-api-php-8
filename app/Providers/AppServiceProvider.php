@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Http\Interfaces\UserServiceInterface;
-use App\Http\Services\Api\UserService;
+use App\Http\Interfaces\CrudServiceInterface;
+use App\Http\Services\Api\CrudService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(UserServiceInterface::class, UserService::class);
+        $this->app->bind(CrudServiceInterface::class, CrudService::class);
     }
 
     /**

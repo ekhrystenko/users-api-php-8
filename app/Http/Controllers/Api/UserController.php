@@ -2,40 +2,33 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\NotFoundUserException;
-use App\Http\Controllers\Controller;
+use App\Exceptions\NotFoundException;
 use App\Http\DTO\UsersDTO;
-use App\Http\Interfaces\UserServiceInterface;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Resources\Api\UserResource;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Response;
 
 /**
  * Class UserController
  * @package App\Http\Controllers\Api
  */
-class UserController extends Controller
+class UserController extends AbstractCrudController
 {
     /**
-     * UserController constructor.
-     * @param UserServiceInterface $userService
+     * @return User
      */
-    public function __construct(protected UserServiceInterface $userService)
+    protected function getModelName(): User
     {
+        return app(User::class);
     }
 
     /**
-     * @return AnonymousResourceCollection
+     * @return string
      */
-    public function index(): AnonymousResourceCollection
+    protected function getResource(): string
     {
-        $users = $this->userService->getAllUsers();
-
-        return UserResource::collection($users);
+        return 'App\Http\Resources\Api\UserResource';
     }
 
     /**
@@ -45,7 +38,7 @@ class UserController extends Controller
     public function store(UserRequest $request): UserResource
     {
         $userDto = new UsersDTO;
-        $user = $this->userService->createUser($userDto->createFormRequest($request->validated()));
+        $user = $this->crudService->create($this->getModelName(), $userDto->createFormRequest($request->validated()));
 
         return new UserResource($user);
     }
@@ -53,12 +46,12 @@ class UserController extends Controller
     /**
      * @param $id
      * @return UserResource|JsonResponse
-     * @throws NotFoundUserException
+     * @throws NotFoundException
      */
     public function show($id): UserResource|JsonResponse
     {
-        $user = $this->userService->getUserById($id);
-        $this->checkUser($user);
+        $user = $this->crudService->getById($this->getModelName(), $id);
+        $this->checkModel($user);
 
         return new UserResource($user);
     }
@@ -67,38 +60,14 @@ class UserController extends Controller
      * @param UserRequest $request
      * @param $id
      * @return UserResource|JsonResponse
-     * @throws NotFoundUserException
+     * @throws NotFoundException
      */
     public function update(UserRequest $request, $id): UserResource|JsonResponse
     {
         $userDto = new UsersDTO;
-        $user = $this->userService->updateUser($userDto->createFormRequest($request->validated()), $id);
-        $this->checkUser($user);
+        $user = $this->crudService->update($this->getModelName(), $userDto->createFormRequest($request->validated()), $id);
+        $this->checkModel($user);
 
         return new UserResource($user);
-    }
-
-    /**
-     * @param $id
-     * @return NotFoundUserException|Application|ResponseFactory|JsonResponse|Response
-     * @throws NotFoundUserException
-     */
-    public function destroy($id): Response|JsonResponse|Application|ResponseFactory|NotFoundUserException
-    {
-        $user = $this->userService->deleteUser($id);
-        $this->checkUser($user);
-
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    /**
-     * @param $user
-     * @throws NotFoundUserException
-     */
-    private function checkUser($user)
-    {
-        if (!$user) {
-            throw new NotFoundUserException();
-        }
     }
 }

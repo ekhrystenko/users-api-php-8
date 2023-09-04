@@ -22,6 +22,14 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
+            'posts' => $this->posts->map(function ($post) {
+                return [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'content' => $post->content,
+                    'created_at' => $post->created_at->format('d.m.Y H:i:s'),
+                ];
+            }),
         ];
     }
 }

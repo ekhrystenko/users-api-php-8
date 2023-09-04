@@ -1,18 +1,17 @@
 <?php
 
-
 namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class NotFoundUserException extends Exception
+class NotFoundException extends Exception
 {
     /**
      * @return JsonResponse
      */
     public function render(): JsonResponse
     {
-        return response()->json(['message' => 'Користувача не знайдено'], 404);
+        return response()->json(['message' => 'Даних не знайдено'], 404);
     }
 }

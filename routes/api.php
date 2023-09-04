@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +19,8 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::middleware(['check_key', 'throttle:20,60'])
+Route::middleware('check_key')
     ->apiResource('users', UserController::class)->except(['create', 'edit']);
+
+Route::middleware('check_key')
+    ->apiResource('posts', PostController::class)->except(['create', 'edit']);
