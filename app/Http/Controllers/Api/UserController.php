@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Exceptions\NotFoundException;
-use App\Http\DTO\UsersDTO;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Resources\Api\UserResource;
 use App\Models\User;
@@ -37,8 +36,7 @@ class UserController extends AbstractCrudController
      */
     public function store(UserRequest $request): UserResource
     {
-        $userDto = new UsersDTO;
-        $user = $this->crudService->create($this->getModelName(), $userDto->createFormRequest($request->validated()));
+        $user = $this->crudService->create(modelName: $this->getModelName(), formData: $request->validated());
 
         return new UserResource($user);
     }
@@ -50,7 +48,7 @@ class UserController extends AbstractCrudController
      */
     public function show($id): UserResource|JsonResponse
     {
-        $user = $this->crudService->getById($this->getModelName(), $id);
+        $user = $this->crudService->getById(modelName: $this->getModelName(), entityId: $id);
         $this->checkModel($user);
 
         return new UserResource($user);
@@ -64,8 +62,7 @@ class UserController extends AbstractCrudController
      */
     public function update(UserRequest $request, $id): UserResource|JsonResponse
     {
-        $userDto = new UsersDTO;
-        $user = $this->crudService->update($this->getModelName(), $userDto->createFormRequest($request->validated()), $id);
+        $user = $this->crudService->update(modelName: $this->getModelName(), formData: $request->validated(), entityId: $id);
         $this->checkModel($user);
 
         return new UserResource($user);

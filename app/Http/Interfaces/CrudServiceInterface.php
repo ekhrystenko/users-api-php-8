@@ -11,37 +11,37 @@ use Illuminate\Database\Eloquent\Collection;
 interface CrudServiceInterface
 {
     /**
-     * @param $model
+     * @param $modelName
      * @return Collection|array
      */
-    public function getAll($model): Collection|array;
+    public function getAll($modelName): Collection|array;
 
     /**
-     * @param $model
-     * @param $id
+     * @param $modelName
+     * @param $entityId
      * @return mixed
      */
-    public function getById($model, $id): mixed;
+    public function getById($modelName, $entityId): mixed;
 
     /**
-     * @param $model
-     * @param $dto
+     * @param $modelName
+     * @param $formData
      * @return mixed
      */
-    public function create($model, $dto);
+    public function create($modelName, $formData);
 
     /**
-     * @param $model
-     * @param $dto
-     * @param $id
+     * @param $modelName
+     * @param $formData
+     * @param $entityId
      * @return mixed
      */
-    public function update($model, $dto, $id);
+    public function update($modelName, $formData, $entityId);
 
     /**
-     * @param $model
-     * @param $id
+     * @param $modelName
+     * @param $entityId
      * @return mixed
      */
-    public function delete($model, $id);
+    public function delete($modelName, $entityId);
 }

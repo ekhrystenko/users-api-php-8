@@ -12,65 +12,65 @@ use Illuminate\Database\Eloquent\Collection;
 class CrudService implements CrudServiceInterface
 {
     /**
-     * @param $model
+     * @param $modelName
      * @return Collection|array
      */
-    public function getAll($model): Collection|array
+    public function getAll($modelName): Collection|array
     {
-        return $model->get();
+        return $modelName->get();
     }
 
     /**
-     * @param $model
-     * @param $id
+     * @param $modelName
+     * @param $entityId
      * @return mixed
      */
-    public function getById($model, $id): mixed
+    public function getById($modelName, $entityId): mixed
     {
-        return $model::find($id);
+        return $modelName::find($entityId);
     }
 
     /**
-     * @param $model
-     * @param $dto
+     * @param $modelName
+     * @param $formData
      * @return mixed
      */
-    public function create($model, $dto): mixed
+    public function create($modelName, $formData): mixed
     {
-        return $model::create($dto);
+        return $modelName::create($formData);
     }
 
     /**
-     * @param $model
-     * @param $dto
-     * @param $id
-     * @return false
+     * @param $modelName
+     * @param $formData
+     * @param $entityId
+     * @return false|mixed
      */
-    public function update($model, $dto, $id)
+    public function update($modelName, $formData, $entityId)
     {
-        $updateModel = $model::find($id);
-        if (!$updateModel) {
+        $model = $modelName::find($entityId);
+        if (!$model) {
             return false;
         }
 
-        $updateModel->update($dto);
-        return $updateModel;
+        $model->update($formData);
+        return $model;
     }
 
     /**
-     * @param $model
-     * @param $id
+     * @param $modelName
+     * @param $entityId
      * @return bool
      */
-    public function delete($model, $id): bool
+    public function delete($modelName, $entityId): bool
     {
-        $deleteModel = $model::find($id);
+        $model = $modelName::find($entityId);
 
-        if (!$deleteModel) {
+        if (!$model) {
             return false;
         }
 
-        $deleteModel->delete();
+        $model->delete();
         return true;
     }
 }

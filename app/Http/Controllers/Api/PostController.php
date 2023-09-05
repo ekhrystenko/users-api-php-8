@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Exceptions\NotFoundException;
-use App\Http\DTO\PostsDTO;
 use App\Http\Requests\Api\PostRequest;
 use App\Http\Resources\Api\PostResource;
 use App\Models\Post;
@@ -37,8 +36,7 @@ class PostController extends AbstractCrudController
      */
     public function store(PostRequest $request): PostResource
     {
-        $postDto = new PostsDTO();
-        $post = $this->crudService->create($this->getModelName(), $postDto->createFormRequest($request->validated()));
+        $post = $this->crudService->create(modelName: $this->getModelName(), formData: $request->validated());
 
         return new PostResource($post);
     }
@@ -50,7 +48,7 @@ class PostController extends AbstractCrudController
      */
     public function show($id): PostResource
     {
-        $post = $this->crudService->getById($this->getModelName(), $id);
+        $post = $this->crudService->getById(modelName: $this->getModelName(), entityId: $id);
         $this->checkModel($post);
 
         return new PostResource($post);
@@ -64,8 +62,7 @@ class PostController extends AbstractCrudController
      */
     public function update(PostRequest $request, $id): PostResource|JsonResponse
     {
-        $postDto = new PostsDTO();
-        $post = $this->crudService->update($this->getModelName(), $postDto->createFormRequest($request->validated()), $id);
+        $post = $this->crudService->update(modelName: $this->getModelName(), formData: $request->validated(), entityId: $id);
         $this->checkModel($post);
 
         return new PostResource($post);

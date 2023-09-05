@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\CrudServiceInterface;
+use App\Http\Interfaces\ResourceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
@@ -22,7 +23,7 @@ abstract class AbstractCrudController extends Controller
     abstract protected function getModelName(): mixed;
 
     /**
-     * UserController constructor.
+     * AbstractCrudController constructor.
      * @param CrudServiceInterface $crudService
      */
     public function __construct(protected CrudServiceInterface $crudService)
@@ -39,7 +40,7 @@ abstract class AbstractCrudController extends Controller
      */
     public function index(): mixed
     {
-        $posts = $this->crudService->getAll($this->getModelName());
+        $posts = $this->crudService->getAll(modelName: $this->getModelName());
         return $this->getResource()::collection($posts);
     }
 
@@ -50,7 +51,7 @@ abstract class AbstractCrudController extends Controller
      */
     public function destroy($id): Response|JsonResponse|Application|ResponseFactory|NotFoundException
     {
-        $user = $this->crudService->delete($this->getModelName(), $id);
+        $user = $this->crudService->delete(modelName: $this->getModelName(), entityId: $id);
         $this->checkModel($user);
 
         return response(null, Response::HTTP_NO_CONTENT);
