@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::middleware('check_key')
-    ->apiResource('users', UserController::class)->except(['create', 'edit']);
-
-Route::middleware('check_key')
-    ->apiResource('posts', PostController::class)->except(['create', 'edit']);
+Route::middleware('check_key')->group(function () {
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('posts', PostController::class);
+});
