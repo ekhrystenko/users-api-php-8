@@ -42,15 +42,20 @@ class RefreshDatabase extends Command
      */
     public function handle()
     {
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        if (app()->environment('local')) {
 
-        \DB::table('posts')->truncate();
-        \DB::table('users')->truncate();
+            \DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1');
+            \DB::table('posts')->truncate();
+            \DB::table('users')->truncate();
 
-        \Artisan::call('db:seed');
+            \DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
-        $this->info('Database refreshed successfully');
+            \Artisan::call('db:seed');
+
+            $this->info('Database refreshed successfully');
+        } else {
+            $this->error('ERROR! This command is only available in a local environment!');
+        }
     }
 }
