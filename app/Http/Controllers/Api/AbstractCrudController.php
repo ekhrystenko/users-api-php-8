@@ -23,17 +23,17 @@ abstract class AbstractCrudController extends Controller
     abstract protected function getModelName(): mixed;
 
     /**
+     * @return mixed
+     */
+    abstract protected function getResource(): mixed;
+
+    /**
      * AbstractCrudController constructor.
      * @param CrudServiceInterface $crudService
      */
     public function __construct(protected CrudServiceInterface $crudService)
     {
     }
-
-    /**
-     * @return mixed
-     */
-    abstract protected function getResource(): mixed;
 
     /**
      * @return mixed
