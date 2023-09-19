@@ -15,7 +15,7 @@ class RequestFactory
      * @param $controller
      * @return mixed
      */
-    public static function make($controller): FormRequest
+    public function make($controller): FormRequest
     {
         $controllerName = str_replace('Controller', '', class_basename($controller));
         $requestClass = "App\\Http\\Requests\\Api\\{$controllerName}Request";
