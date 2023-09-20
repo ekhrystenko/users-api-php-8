@@ -40,12 +40,10 @@
   </template>
 </template>
 <script>
-import NavComponent from "./NavComponent";
 
 export default {
   name: 'CreateUserComponents',
   components: {
-    NavComponent,
   },
 
   data() {
@@ -65,20 +63,22 @@ export default {
 
   methods: {
     createUser() {
-      axios.post('api/users',
-          {
-            name: this.name,
-            email: this.email,
-            phone: this.phone,
-            password: this.password,
-            password_confirmation: this.password_confirmation
-          })
+
+      const userData = {
+        name: this.name,
+        email: this.email,
+        phone: this.phone,
+        password: this.password,
+        password_confirmation: this.password_confirmation
+      };
+
+      axios.post('api/users', userData
+          )
           .then(res => {
-            this.name = null
-            this.email = null
-            this.phone = null
-            this.password = null
-            this.password_confirmation = null
+            Object.keys(userData).forEach(key => {
+              this[key] = null;
+            });
+
             this.$parent.$refs.users.getUsers();
             this.showForm = false;
           })

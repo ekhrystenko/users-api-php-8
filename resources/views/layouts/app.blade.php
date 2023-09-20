@@ -21,8 +21,6 @@
 </head>
 <body>
     <div id="app">
-        <main-component></main-component>
-
         <main class="py-4">
             @yield('content')
         </main>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavComponent></NavComponent>
     <div class="container">
       <CreateUserComponent ref="createUser"></CreateUserComponent>
       <UsersComponent class="mt-3" ref="users"></UsersComponent>
@@ -9,15 +8,13 @@
 </template>
 
 <script>
-import NavComponent from "./NavComponent";
 import UsersComponent from "./UsersComponent";
 import CreateUserComponent from "./CreateUserComponent";
 
 export default {
-  name: 'MainComponents',
+  name: 'MainApiComponents',
 
   components: {
-    NavComponent,
     UsersComponent,
     CreateUserComponent,
   },

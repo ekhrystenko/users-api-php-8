@@ -1,40 +1,27 @@
 <template>
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-      <div class="container">
-        <a class="navbar-brand" href="/">
-          Welcome to Laravel test API
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- Left Side Of Navbar -->
-          <ul class="navbar-nav me-auto">
-
-          </ul>
-
-          <ul class="navbar-nav ms-auto">
-            <button class="btn btn-success">Use API</button>
-          </ul>
-        </div>
-      </div>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+      <h3 class="m-lg-5"><router-link class="link" to="/">Welcome to Laravel test API</router-link></h3>
+      <router-link class="link m-md-5" to="/api" v-if="isHomePage"><a class="btn btn-success">Use API</a></router-link>
     </nav>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-    }
-  },
 
+export default {
+  name: "NavComponent",
+  components: {
+  },
   computed: {
-  }
+    isHomePage() {
+      return this.$route.path === '/';
+    },
+  },
 }
 </script>
 
 <style scoped>
-
+  .link {
+      text-decoration: none;
+      color: #000;
+  }
 </style>
